@@ -1,20 +1,36 @@
 package com.parkingLot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Document(collection = "parkingSlot")
 public class ParkingSlot {
     @Id
     private String id;
-
     private int parkingNumber;
-
-    private boolean slotAvailableOrOccupied;
-
+    private boolean slotOccupied;
+    private boolean slotBooked;
     private boolean slotReserved;
+    private LocalDateTime arrivalTime;
+    @DBRef
+    private Booking booking;
 
-    private String booking;
+    public ParkingSlot(){
+    }
 
-    private String arrivalTime;
+    public ParkingSlot(String id, int parkingNumber, boolean slotOccupied, boolean slotBooked, boolean slotReserved, LocalDateTime arrivalTime, Booking booking) {
+        this.id = id;
+        this.parkingNumber = parkingNumber;
+        this.slotOccupied = slotOccupied;
+        this.slotBooked = slotBooked;
+        this.slotReserved = slotReserved;
+        this.arrivalTime = arrivalTime;
+        this.booking = booking;
+    }
 
     public int getParkingNumber() {
         return parkingNumber;
@@ -24,12 +40,12 @@ public class ParkingSlot {
         this.parkingNumber = parkingNumber;
     }
 
-    public boolean isSlotAvailableOrOccupied() {
-        return slotAvailableOrOccupied;
+    public boolean isSlotOccupied() {
+        return slotOccupied;
     }
 
-    public void setSlotAvailableOrOccupied(boolean slotAvailableOrOccupied) {
-        this.slotAvailableOrOccupied = slotAvailableOrOccupied;
+    public void setSlotOccupied(boolean slotAvailableOrOccupied) {
+        this.slotOccupied = slotAvailableOrOccupied;
     }
 
     public boolean isSlotReserved() {
@@ -40,19 +56,49 @@ public class ParkingSlot {
         this.slotReserved = slotReserved;
     }
 
-    public String getBooking() {
-        return booking;
-    }
 
-    public void setBooking(String booking) {
-        this.booking = booking;
-    }
-
-    public String getArrivalTime() {
+    public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(String arrivalTime) {
+    public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public boolean isSlotBooked() {
+        return slotBooked;
+    }
+
+    public void setSlotBooked(boolean slotBooked) {
+        this.slotBooked = slotBooked;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    @Override
+    public String toString() {
+        return "ParkingSlot{" +
+                "id='" + id + '\'' +
+                ", parkingNumber=" + parkingNumber +
+                ", slotOccupied=" + slotOccupied +
+                ", slotBooked=" + slotBooked +
+                ", slotReserved=" + slotReserved +
+                ", arrivalTime=" + arrivalTime +
+                ", booking=" + booking +
+                '}';
     }
 }

@@ -1,7 +1,9 @@
 package com.parkingLot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "user")
 public class User {
 
     @Id
@@ -9,13 +11,27 @@ public class User {
 
     private String name;
 
-    private String userName;
-
     private String password;
 
     private String phoneNumber;
 
-    private String address;
+    private String vehicleNumber;
+
+    private boolean isReserved;
+
+    public User(){
+
+    }
+
+    public User(String id, String name, String password, String phoneNumber, String vehicleNumber, boolean isReserved) {
+        super();
+        Id = id;
+        this.name = name;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.vehicleNumber = vehicleNumber;
+        this.isReserved = isReserved;
+    }
 
     public String getId() {
         return Id;
@@ -31,14 +47,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getPassword() {
@@ -57,11 +65,31 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
-        return address;
+    public String getVehicleNumber() {
+        return vehicleNumber;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setVehicleNumber(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
+    }
+
+    public boolean isReserved() {
+        return isReserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        isReserved = reserved;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "Id='" + Id + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", vehicleNumber='" + vehicleNumber + '\'' +
+                ", isReserved=" + isReserved +
+                '}';
     }
 }

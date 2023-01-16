@@ -13,11 +13,22 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+//    registering the user
     public User registerUser(User user){
         return userRepository.save(user);
     }
 
+//    find the list of users
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+//    return the totalCount of users
+    public int userCount(){
+        return userRepository.findAll().size();
+    }
+
+    public User getUserByVehicleNumber(String vehicleNumber){
+        return userRepository.validateVehicleNumber(vehicleNumber);
     }
 }

@@ -24,4 +24,10 @@ public class UserController {
     public List<User> findAllUsers(){
         return userService.getAllUsers();
     }
+
+    @GetMapping("/countUser")
+    public String countUser(){
+        int userCount = userService.userCount();
+        return "Total Registered User : " + userCount;
+    }
 }
