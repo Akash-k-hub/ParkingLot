@@ -53,7 +53,7 @@ public class ParkingService {
             Booking booking = new Booking();
 
             //initialising default parkingSlot fields
-            slot.setArrivalTime(LocalDateTime.now());
+            slot.setArrivalTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
             slot.setParkingNumber(i+1);
             slot.setSlotReserved(false);
             slot.setSlotBooked(false);
@@ -90,9 +90,25 @@ public class ParkingService {
 
         Query query = new Query();
         query.addCriteria(Criteria.where("slotBooked").is(true));
-        List<ParkingSlot> slots = mongoTemplate.find(query, ParkingSlot.class); //list of all booked slots
-        return slots.stream().filter(s -> s.getBooking().getArrivalTime().minusMinutes(-30).isAfter(LocalDateTime.now())).collect(Collectors.toList());
+        List<ParkingSlot> slots = new ArrayList<>();
+        //list of outdated booked slots
+        slots = mongoTemplate.find(query, ParkingSlot.class).stream()
+                .filter(s -> s.getBooking().getArrivalTime().minusMinutes(-30).isBefore(LocalDateTime.now()))
+                .collect(Collectors.toList());
 
-//        return null;
+
+        for ( ParkingSlot slot : slots){
+            slot.setSlotBooked(false);
+            slot.getBooking().setBookingTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
+            slot.getBooking().setArrivalTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
+            slot.getBooking().setUserName("");
+            slot.getBooking().setVehicleNumber("");
+
+            bookingRepository.save(slot.getBooking());
+            parkingSlotRepository.save(slot);
+
+//            System.out.println(slot.toString());
+        }
+        return slots;
     }
 }
