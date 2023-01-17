@@ -37,15 +37,15 @@ public class ParkingController {
 //    count Occupied slots
     @GetMapping("/occupiedSlotsCount")
     public int countSlotsOccupied(){
-        return parkingService.checkAvailableParkingSlots();
+        return parkingService.getAvailableGeneralParkingSlots().size();
     }
 
     @GetMapping("/listAvailableSlots")
     public List<ParkingSlot> availableParkingSlots(){    /*GET all available parking slots*/
-        return parkingService.getAvailableParkingSlots();
+        return parkingService.getAvailableGeneralParkingSlots();
     }
 
-    @GetMapping("/getBookedSlots")
+    @GetMapping("/removeOutdatedBookings")
     public List<ParkingSlot> bookedParkingSlots(){
         return parkingService.getBookedParkingSlots();
     }

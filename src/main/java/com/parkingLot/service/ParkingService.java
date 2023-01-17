@@ -1,6 +1,6 @@
 package com.parkingLot.service;
 
-import com.parkingLot.exception.InvalidDateTimeException;
+import com.parkingLot.constants.Constant;
 import com.parkingLot.model.Booking;
 import com.parkingLot.model.Parking;
 import com.parkingLot.model.ParkingSlot;
@@ -32,19 +32,18 @@ public class ParkingService {
     @Autowired
     MongoTemplate mongoTemplate;
 
-
-//    returns the list of all parkingSlot -
     public List<ParkingSlot> getAllParkingSlot(){
+        //    returns the list of all parkingSlot -
         return parkingSlotRepository.findAll();
     }
 
-//    returns count of all parkingSlots
     public int parkingSlotCount(){
+        //    returns count of all parkingSlots
         return parkingSlotRepository.findAll().size();
     }
 
-//    initialize the parkingSlot in the DB
     public Parking initializeParkingSlots(){
+        //    initialize the parkingSlot in the DB
         Parking parking = new Parking();
         List<ParkingSlot> parkingSlots = new ArrayList<ParkingSlot>();
 
@@ -53,7 +52,7 @@ public class ParkingService {
             Booking booking = new Booking();
 
             //initialising default parkingSlot fields
-            slot.setArrivalTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
+            slot.setArrivalTime(Constant.DEFAULT_DATE_TIME);
             slot.setParkingNumber(i+1);
             slot.setSlotReserved(false);
             slot.setSlotBooked(false);
@@ -62,8 +61,8 @@ public class ParkingService {
             //initialising default booking fields
             booking.setUserName("");
             booking.setVehicleNumber("");
-            booking.setBookingTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
-            booking.setArrivalTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
+            booking.setBookingTime(Constant.DEFAULT_DATE_TIME);
+            booking.setArrivalTime(Constant.DEFAULT_DATE_TIME);
             booking.setParkingNumber(i+1);
 
             slot.setBooking(booking);
@@ -76,38 +75,47 @@ public class ParkingService {
         return parkingRepository.save(parking);
     }
 
-//   return count of all available parking slot
-    public int checkAvailableParkingSlots(){
-        return parkingSlotRepository.getAllAvailableParkingSlots().size();
+
+    /*public int checkAvailableParkingSlots(){
+        //   return count of all available parking slot
+        return parkingSlotRepository.getAvailableGeneralParkingSlots().size();
     }
 
-//    returns list of all available parking slot
-    public List<ParkingSlot> getAvailableParkingSlots(){
-        return parkingSlotRepository.getAllAvailableParkingSlots();
+     */
+
+    public List<ParkingSlot> getAvailableReservedParkingSlots(){
+        //   return count of all available reserved parking slot
+        return parkingSlotRepository.getAvailableReservedParkingSlots();
+    }
+
+
+    public List<ParkingSlot> getAvailableGeneralParkingSlots(){
+        //    returns list of all available parking slot
+        return parkingSlotRepository.getAvailableGeneralParkingSlots();
     }
 
     public List<ParkingSlot> getBookedParkingSlots(){
+        int reservedCapacity = parkingSlotRepository.getAvailableReservedParkingSlots().size();
+        int generalCapacity = parkingSlotRepository.getAvailableGeneralParkingSlots().size();
 
+        // reverting back the outdated slots and bookings to default
         Query query = new Query();
         query.addCriteria(Criteria.where("slotBooked").is(true));
         List<ParkingSlot> slots = new ArrayList<>();
         //list of outdated booked slots
         slots = mongoTemplate.find(query, ParkingSlot.class).stream()
-                .filter(s -> s.getBooking().getArrivalTime().minusMinutes(-30).isBefore(LocalDateTime.now()))
-                .collect(Collectors.toList());
-
+                    .filter(s -> s.getBooking().getArrivalTime().minusMinutes(-30).isBefore(LocalDateTime.now()))
+                    .collect(Collectors.toList());
 
         for ( ParkingSlot slot : slots){
             slot.setSlotBooked(false);
-            slot.getBooking().setBookingTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
-            slot.getBooking().setArrivalTime(LocalDateTime.of(2023, Month.JANUARY, 1, 12, 0, 0));
+            slot.getBooking().setBookingTime(Constant.DEFAULT_DATE_TIME);
+            slot.getBooking().setArrivalTime(Constant.DEFAULT_DATE_TIME);
             slot.getBooking().setUserName("");
             slot.getBooking().setVehicleNumber("");
 
             bookingRepository.save(slot.getBooking());
             parkingSlotRepository.save(slot);
-
-//            System.out.println(slot.toString());
         }
         return slots;
     }

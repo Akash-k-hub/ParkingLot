@@ -17,20 +17,20 @@ public class User {
 
     private String vehicleNumber;
 
-    private boolean isReserved;
+    private boolean reservedUser;
 
     public User(){
 
     }
 
-    public User(String id, String name, String password, String phoneNumber, String vehicleNumber, boolean isReserved) {
+    public User(String id, String name, String password, String phoneNumber, String vehicleNumber, boolean reservedUser) {
         super();
         Id = id;
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.vehicleNumber = vehicleNumber;
-        this.isReserved = isReserved;
+        this.reservedUser = reservedUser;
     }
 
     public String getId() {
@@ -73,12 +73,12 @@ public class User {
         this.vehicleNumber = vehicleNumber;
     }
 
-    public boolean isReserved() {
-        return isReserved;
+    public boolean isReservedUser() {
+        return reservedUser;
     }
 
-    public void setReserved(boolean reserved) {
-        isReserved = reserved;
+    public void setReservedUser(boolean reservedUser) {
+        this.reservedUser = reservedUser;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", vehicleNumber='" + vehicleNumber + '\'' +
-                ", isReserved=" + isReserved +
+                ", reservedUser=" + reservedUser +
                 '}';
     }
 }
