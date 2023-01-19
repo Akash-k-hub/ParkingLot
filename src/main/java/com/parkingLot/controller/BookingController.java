@@ -7,6 +7,7 @@ import com.parkingLot.model.User;
 import com.parkingLot.service.BookingService;
 import com.parkingLot.service.ParkingService;
 import com.parkingLot.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
@@ -29,16 +31,10 @@ public class BookingController {
     @Autowired
     private UserService userService;
 
-    /*@GetMapping("/getUserByVehicleNumber/{vehicleNumber}")
-    public User getUserByVehicleNumber(@PathVariable String vehicleNumber){
-        return userService.getUserByVehicleNumber(vehicleNumber);
-    }
-
-     */
-
     @GetMapping("/getAllBookings")
     public ResponseEntity<List<Booking>> getAllBooking(){
         ResponseEntity<List<Booking>> response;
+        log.info("service=BookingController; method=getAllBooking");
         List<Booking> bookingList = bookingService.getAllBookings();
         response = new ResponseEntity<>(bookingList, HttpStatus.OK);
 
@@ -50,6 +46,7 @@ public class BookingController {
             throws ParkingFullException, InvalidDateTimeException {
         ResponseEntity<Booking> response;
         Booking result = bookingService.bookParkingSlot(booking);
+        log.info("service=BookingController; method=bookParkingSlot");
         response = new ResponseEntity<>(result, HttpStatus.CREATED);
 
         return response;

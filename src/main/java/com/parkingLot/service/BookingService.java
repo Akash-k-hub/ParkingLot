@@ -8,15 +8,16 @@ import com.parkingLot.model.User;
 import com.parkingLot.repository.BookingRepository;
 import com.parkingLot.repository.ParkingSlotRepository;
 import com.parkingLot.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BookingService {
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -38,15 +39,17 @@ public class BookingService {
         arrivalTime = booking.getArrivalTime();
         LocalDateTime tempDateTime = arrivalTime.minusMinutes(15); //time 15 minutes before arrival
         Booking newBooking = new Booking();
-
+        log.info("service=BookingService; method=bookParkingSlot");
         if (tempDateTime.isAfter(currentTime) || tempDateTime.isEqual(currentTime)) {
             if (user.isReservedUser()) {
                 newBooking = bookReservedParking(booking);
             } else {
                 newBooking = bookGeneralParking(booking);
             }
+            log.info("service=BookingService; method=bookParkingSlot; parkingSlot {} booked", newBooking.getParkingNumber());
             return newBooking;
         }
+        log.error("Exception in service=BookingService; method=bookParkingSlot; message=invalid date time entered");
         throw new InvalidDateTimeException("Invalid Date Time entered!");
     }
 
@@ -56,6 +59,7 @@ public class BookingService {
         currentTime = LocalDateTime.now();
         arrivalTime = booking.getArrivalTime();
         if (generalParkingSlots > 0){
+            log.info("service=BookingService; method=bookGeneralParking");
             ParkingSlot slot = parkingSlotRepository.getAvailableGeneralParkingSlots().get(0);
             //updating booking object of parkingSlot
             slot.getBooking().setUserName(generalUser.getName());
@@ -70,6 +74,7 @@ public class BookingService {
 
             return slot.getBooking();
         }
+        log.error("service=BookingService; method=bookParkingSlot; message=parking full");
         throw new ParkingFullException("Parking full!");
     }
 
@@ -79,6 +84,7 @@ public class BookingService {
         currentTime = LocalDateTime.now();
         arrivalTime = booking.getArrivalTime();
         if (reservedParkingSlots > 0){
+            log.info("service=BookingService; method=bookReservedParking");
             ParkingSlot slot = parkingSlotRepository.getAvailableReservedParkingSlots().get(0);
             slot.getBooking().setUserName(reserveUser.getName());
             slot.getBooking().setVehicleNumber(booking.getVehicleNumber());
@@ -93,11 +99,13 @@ public class BookingService {
             return slot.getBooking();
         }else{
             //Reserve parking is full
+            log.warn("service=BookingService; method=bookReservedParking; message=reserveSlot are full, booking from generalSlot");
             return bookGeneralParking(booking);
         }
     }
 
     public List<Booking> getAllBookings(){
+        log.info("service=BookingService; method=getAllBookings; message=retrieve list of all booking objects");
         return bookingRepository.findAll();
     }
 

@@ -16,4 +16,9 @@ public interface ParkingSlotRepository extends MongoRepository<ParkingSlot, Stri
     @Query("{'slotReserved' : true, 'slotBooked':false}")
     ArrayList<ParkingSlot> getAvailableReservedParkingSlots();
 
+    @Query("{'slotBooked':false}")
+    ArrayList<ParkingSlot> getAvailableParkingSlots();
+
+    @Query("{'slotBooked':true}")
+    ArrayList<ParkingSlot> getBookedParkingSlots();
 }
