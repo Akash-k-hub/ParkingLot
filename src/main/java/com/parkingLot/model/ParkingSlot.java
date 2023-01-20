@@ -12,7 +12,7 @@ public class ParkingSlot {
     @Id
     private String id;
     private int parkingNumber;
-    private boolean slotOccupied;
+    private boolean slotLocked;
     private boolean slotBooked;
     private boolean slotReserved;
     private LocalDateTime arrivalTime;
@@ -22,10 +22,11 @@ public class ParkingSlot {
     public ParkingSlot(){
     }
 
-    public ParkingSlot(String id, int parkingNumber, boolean slotOccupied, boolean slotBooked, boolean slotReserved, LocalDateTime arrivalTime, Booking booking) {
+    public ParkingSlot(String id, int parkingNumber, boolean slotLocked, boolean slotBooked, boolean slotReserved, LocalDateTime arrivalTime, Booking booking) {
+        super();
         this.id = id;
         this.parkingNumber = parkingNumber;
-        this.slotOccupied = slotOccupied;
+        this.slotLocked = slotLocked;
         this.slotBooked = slotBooked;
         this.slotReserved = slotReserved;
         this.arrivalTime = arrivalTime;
@@ -40,12 +41,12 @@ public class ParkingSlot {
         this.parkingNumber = parkingNumber;
     }
 
-    public boolean isSlotOccupied() {
-        return slotOccupied;
+    public boolean isSlotLocked() {
+        return slotLocked;
     }
 
-    public void setSlotOccupied(boolean slotAvailableOrOccupied) {
-        this.slotOccupied = slotAvailableOrOccupied;
+    public void setSlotLocked(boolean slotLocked) {
+        this.slotLocked = slotLocked;
     }
 
     public boolean isSlotReserved() {
@@ -94,7 +95,7 @@ public class ParkingSlot {
         return "ParkingSlot{" +
                 "id='" + id + '\'' +
                 ", parkingNumber=" + parkingNumber +
-                ", slotOccupied=" + slotOccupied +
+                ", slotLocked=" + slotLocked +
                 ", slotBooked=" + slotBooked +
                 ", slotReserved=" + slotReserved +
                 ", arrivalTime=" + arrivalTime +

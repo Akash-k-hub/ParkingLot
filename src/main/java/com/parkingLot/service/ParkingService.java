@@ -78,7 +78,7 @@ public class ParkingService {
             slot.setParkingNumber(i+1);
             slot.setSlotReserved(false);
             slot.setSlotBooked(false);
-            slot.setSlotOccupied(false);
+            slot.setSlotLocked(false);
 
             //initialising default booking fields
             booking.setUserName("");
@@ -124,6 +124,7 @@ public class ParkingService {
 
         for ( ParkingSlot slot : slots){
             slot.setSlotBooked(false);
+            slot.setArrivalTime(Constant.DEFAULT_DATE_TIME);
             slot.getBooking().setBookingTime(Constant.DEFAULT_DATE_TIME);
             slot.getBooking().setArrivalTime(Constant.DEFAULT_DATE_TIME);
             slot.getBooking().setUserName("");

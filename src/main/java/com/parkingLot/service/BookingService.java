@@ -67,6 +67,7 @@ public class BookingService {
             slot.getBooking().setBookingTime(currentTime);
             slot.getBooking().setArrivalTime(arrivalTime);
             //marking slot as booked and updating booking object
+            slot.setArrivalTime(arrivalTime);
             slot.setSlotBooked(true);
 
             bookingRepository.save(slot.getBooking());
@@ -91,6 +92,7 @@ public class BookingService {
             slot.getBooking().setBookingTime(currentTime);
             slot.getBooking().setArrivalTime(arrivalTime);
             //marking slot as booked and updating booking object
+            slot.setArrivalTime(arrivalTime);
             slot.setSlotBooked(true);
 
             bookingRepository.save(slot.getBooking());

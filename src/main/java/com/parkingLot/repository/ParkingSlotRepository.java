@@ -10,10 +10,10 @@ import java.util.ArrayList;
 @Repository
 public interface ParkingSlotRepository extends MongoRepository<ParkingSlot, String> {
 
-    @Query("{'slotOccupied':false, 'slotBooked':false, 'slotReserved':false}")
+    @Query("{'slotBooked':false, 'slotReserved':false, 'slotLocked':false}")
     ArrayList<ParkingSlot> getAvailableGeneralParkingSlots();
 
-    @Query("{'slotReserved' : true, 'slotBooked':false}")
+    @Query("{'slotBooked':false, 'slotReserved' : true}")
     ArrayList<ParkingSlot> getAvailableReservedParkingSlots();
 
     @Query("{'slotBooked':false}")
