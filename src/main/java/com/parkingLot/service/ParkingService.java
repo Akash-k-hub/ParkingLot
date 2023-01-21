@@ -104,13 +104,13 @@ public class ParkingService {
         int reservedCapacity = parkingSlotRepository.getAvailableReservedParkingSlots().size();
 //        generalSlots that are not booked
         int generalCapacity = parkingSlotRepository.getAvailableGeneralParkingSlots().size();
-        long waitMinutes;
+        long waitTime;
 
-        if ((reservedCapacity > (Constant.RESERVED_PARKING_CAPACITY/2))
-                || (generalCapacity > (Constant.GENERAL_PARKING_CAPACITY/2))) {
-            waitMinutes = 15L;
+        if ((reservedCapacity < (Constant.RESERVED_PARKING_CAPACITY/2))
+                || (generalCapacity < (Constant.GENERAL_PARKING_CAPACITY/2))) {
+            waitTime = 15L;
         }else {
-            waitMinutes = 30L;
+            waitTime = 30L;
         }
 
         // reverting back the outdated slots and bookings to default
@@ -119,7 +119,7 @@ public class ParkingService {
         List<ParkingSlot> slots = new ArrayList<>();
         //list of outdated booked slots
         slots = mongoTemplate.find(query, ParkingSlot.class).stream()
-                    .filter(s -> s.getBooking().getArrivalTime().minusMinutes(-waitMinutes).isBefore(LocalDateTime.now()))
+                    .filter(s -> s.getBooking().getArrivalTime().minusMinutes(-waitTime).isBefore(LocalDateTime.now()))
                     .collect(Collectors.toList());
 
         for ( ParkingSlot slot : slots){
