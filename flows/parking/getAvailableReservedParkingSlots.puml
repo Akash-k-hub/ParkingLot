@@ -1,0 +1,16 @@
+@startuml
+title "Get all available reserved parking"
+
+actor User
+control "ParkingController" as Controller
+entity ParkingRepository as Dao
+database MongoDB as DB
+
+User -> Controller : /listAvailableReservedSlots
+Controller -> Dao : getAvailableReservedParkingSlots()
+Dao -> DB : {'slotBooked':false, 'slotReserved' : true}
+DB --> Dao : List<ParkingSlot>
+Dao --> Controller
+Controller --> User : (200 OK) List<ParkingSlot>
+
+@enduml

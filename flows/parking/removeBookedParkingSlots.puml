@@ -1,0 +1,20 @@
+@startuml
+title "Remove outdated parking slots"
+
+actor User
+control "ParkingController" as Controller
+control "ParkingService" as Service
+entity ParkingRepository as Dao
+database MongoDB as DB
+
+User -> Controller : /removeOutdatedBookings
+Controller -> Service : removeBookedParkingSlots()
+Service -> Dao : update booking object \nupdate parkingSlot object
+Dao -> DB : update
+DB --> DB
+DB --> Dao
+Dao --> Service
+Service --> Controller
+Controller --> User : (200 OK) List<ParkingSlot>
+
+@enduml

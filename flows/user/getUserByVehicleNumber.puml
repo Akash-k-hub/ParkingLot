@@ -1,0 +1,15 @@
+@startuml
+title "Get user by vehicle number"
+
+
+control "UserService" as Service
+entity UserRepository as Dao
+database MongoDB as DB
+
+
+Service -> Dao : getUserByVehicleNumber(vehicleNumber)
+Dao -> DB : {"vehicleNumber" : "?0"}
+DB --> Dao : User
+Dao --> Service : User
+
+@enduml

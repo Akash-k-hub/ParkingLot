@@ -1,0 +1,19 @@
+@startuml
+title "Get all booking documents"
+
+actor User
+control "BookingController" as Controller
+control "BookingService" as Service
+entity BookingRepository as Dao
+database MongoDB as DB
+
+User -> Controller : /getAllBookings
+Controller -> Service : getAllBookings()
+Service -> Dao : findAll()
+Dao -> DB : List<Booking>
+DB --> Dao
+Dao --> Service
+Service --> Controller
+Controller --> User : (200 OK) List<Booking>
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+title "Get user count"
+
+actor User
+control "UserController" as Controller
+control "UserService" as Service
+entity UserRepository as Dao
+database MongoDB as DB
+
+User -> Controller : /countUser
+Controller -> Service : countUser()
+Service -> Dao : findAll()
+Dao -> DB : retrieveListOfUsers
+DB --> Dao : List<User>
+Dao --> Service : size of list
+Service --> Controller
+Controller --> User : (200 OK) "Total Registered User"
+
+@enduml

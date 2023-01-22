@@ -1,0 +1,24 @@
+@startuml
+title "Booking the parking slot"
+
+actor User
+control "BookingController" as Controller
+control "BookingService" as Service
+entity BookingRepository as Dao1
+entity ParkingSlotRepository as Dao2
+database MongoDB as DB
+
+User -> Controller : Book a parking slot
+Controller -> Service : /bookParking (POST)
+Service -> Dao1 : update booking object
+Service -> Dao2 : update parkingSlot object
+Dao1 -> DB : update booking object to database
+Dao2 -> DB : Update object to database
+DB --> Dao1 :
+DB --> Dao2
+Dao1 --> Service
+Dao2 --> Service
+Service --> Controller
+Controller --> User : 200 OK [Booking object]
+
+@enduml
