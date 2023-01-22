@@ -10,15 +10,10 @@ import java.time.LocalDateTime;
 public class Booking {
     @Id
     private String id;
-
     private String userName;
-
     private String vehicleNumber;
-
     private LocalDateTime bookingTime;
-
     private LocalDateTime arrivalTime;
-
     private int parkingNumber;
 
     public Booking(){

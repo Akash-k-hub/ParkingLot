@@ -100,6 +100,7 @@ public class ParkingService {
 
     public List<ParkingSlot> removeBookedParkingSlots(){
         log.warn("service=ParkingService; method=removeBookedParkingSlots; message=removing the outdated slots");
+
 //        reservedSlots that are not booked
         int reservedCapacity = parkingSlotRepository.getAvailableReservedParkingSlots().size();
 //        generalSlots that are not booked

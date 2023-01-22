@@ -8,15 +8,10 @@ public class User {
 
     @Id
     private String Id;
-
     private String name;
-
     private String password;
-
     private String phoneNumber;
-
     private String vehicleNumber;
-
     private boolean reservedUser;
 
     public User(){

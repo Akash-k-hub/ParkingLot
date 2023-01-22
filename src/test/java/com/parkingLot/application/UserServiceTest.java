@@ -1,4 +1,4 @@
-package com.parkingLot.demo;
+package com.parkingLot.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
