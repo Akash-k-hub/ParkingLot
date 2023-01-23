@@ -1,5 +1,5 @@
 @startuml
-title "Get all available parking"
+title <U> Get all parking
 
 actor User
 control "ParkingController" as Controller

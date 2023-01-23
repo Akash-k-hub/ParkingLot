@@ -1,5 +1,5 @@
 @startuml
-title "Booking the parking slot"
+title <U> Booking the parking slot
 
 actor User
 control "BookingController" as Controller

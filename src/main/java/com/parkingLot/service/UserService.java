@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -24,7 +25,19 @@ public class UserService {
 //    find the list of users
     public List<User> getAllUsers(){
         log.info("service=UserService; method=getAllUsers; message=list of all users");
-        return userRepository.findAll();
+        List<User> userList = new ArrayList<>();
+
+        List<User> allUserList = new ArrayList<>();
+        userList = userRepository.findAll();
+        for (int i = 0; i < userList.size(); i++){
+            User user = new User();
+            user.setName(userList.get(i).getName());
+            user.setVehicleNumber(userList.get(i).getVehicleNumber());
+            user.setReservedUser(userList.get(i).isReservedUser());
+
+            allUserList.add(user);
+        }
+        return allUserList;
     }
 
 //    return the totalCount of users

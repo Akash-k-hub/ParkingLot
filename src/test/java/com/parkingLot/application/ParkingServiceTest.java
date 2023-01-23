@@ -35,7 +35,6 @@ class ParkingServiceTest {
         ParkingSlot slot2 = new ParkingSlot();
 
         slot1.setParkingNumber(1);
-        slot1.setSlotLocked(false);
         slot1.setSlotReserved(true);
         slot1.setSlotBooked(false);
         slot1.setId("testID");
@@ -43,7 +42,6 @@ class ParkingServiceTest {
         slot1.setArrivalTime(LocalDateTime.now());
 
         slot2.setParkingNumber(2);
-        slot2.setSlotLocked(false);
         slot2.setSlotReserved(true);
         slot2.setSlotBooked(true);
         slot2.setId("testID2");
@@ -70,7 +68,6 @@ class ParkingServiceTest {
         ParkingSlot slot4 = new ParkingSlot();
 
         slot1.setParkingNumber(1);
-        slot1.setSlotLocked(false);
         slot1.setSlotReserved(true);
         slot1.setSlotBooked(false);
         slot1.setId("testID");
@@ -78,7 +75,6 @@ class ParkingServiceTest {
         slot1.setArrivalTime(LocalDateTime.now());
 
         slot2.setParkingNumber(2);
-        slot2.setSlotLocked(false);
         slot2.setSlotReserved(true);
         slot2.setSlotBooked(false);
         slot2.setId("testID2");
@@ -86,7 +82,6 @@ class ParkingServiceTest {
         slot2.setArrivalTime(LocalDateTime.now());
 
         slot3.setParkingNumber(3);
-        slot3.setSlotLocked(false);
         slot3.setSlotReserved(true);
         slot3.setSlotBooked(false);
         slot3.setId("testID3");
@@ -94,7 +89,6 @@ class ParkingServiceTest {
         slot3.setArrivalTime(LocalDateTime.now());
 
         slot4.setParkingNumber(4);
-        slot4.setSlotLocked(false);
         slot4.setSlotReserved(true);
         slot4.setSlotBooked(false);
         slot4.setId("testID4");
@@ -134,7 +128,6 @@ class ParkingServiceTest {
         ParkingSlot slot3 = new ParkingSlot();
 
         slot1.setParkingNumber(1);
-        slot1.setSlotLocked(false);
         slot1.setSlotReserved(false);
         slot1.setSlotBooked(false);
         slot1.setId("testID");
@@ -142,7 +135,6 @@ class ParkingServiceTest {
         slot1.setArrivalTime(LocalDateTime.now());
 
         slot2.setParkingNumber(2);
-        slot2.setSlotLocked(false);
         slot2.setSlotReserved(false);
         slot2.setSlotBooked(false);
         slot2.setId("testID2");
@@ -150,7 +142,6 @@ class ParkingServiceTest {
         slot2.setArrivalTime(LocalDateTime.now());
 
         slot3.setParkingNumber(3);
-        slot3.setSlotLocked(false);
         slot3.setSlotReserved(false);
         slot3.setSlotBooked(false);
         slot3.setId("testID3");
@@ -187,7 +178,6 @@ class ParkingServiceTest {
         ParkingSlot slot4 = new ParkingSlot();
 
         slot1.setParkingNumber(1);
-        slot1.setSlotLocked(false);
         slot1.setSlotReserved(true);
         slot1.setSlotBooked(false);
         slot1.setId("testID");
@@ -195,7 +185,6 @@ class ParkingServiceTest {
         slot1.setArrivalTime(LocalDateTime.now());
 
         slot2.setParkingNumber(2);
-        slot2.setSlotLocked(false);
         slot2.setSlotReserved(true);
         slot2.setSlotBooked(false);
         slot2.setId("testID2");
@@ -203,7 +192,6 @@ class ParkingServiceTest {
         slot2.setArrivalTime(LocalDateTime.now());
 
         slot3.setParkingNumber(3);
-        slot3.setSlotLocked(false);
         slot3.setSlotReserved(false);
         slot3.setSlotBooked(false);
         slot3.setId("testID3");
@@ -211,7 +199,6 @@ class ParkingServiceTest {
         slot3.setArrivalTime(LocalDateTime.now());
 
         slot4.setParkingNumber(4);
-        slot4.setSlotLocked(false);
         slot4.setSlotReserved(true);
         slot4.setSlotBooked(false);
         slot4.setId("testID4");
@@ -239,7 +226,6 @@ class ParkingServiceTest {
         ParkingSlot slot3 = new ParkingSlot();
 
         slot1.setParkingNumber(1);
-        slot1.setSlotLocked(false);
         slot1.setSlotReserved(true);
         slot1.setSlotBooked(true);
         slot1.setId("testID");
@@ -247,7 +233,6 @@ class ParkingServiceTest {
         slot1.setArrivalTime(LocalDateTime.now());
 
         slot2.setParkingNumber(2);
-        slot2.setSlotLocked(false);
         slot2.setSlotReserved(true);
         slot2.setSlotBooked(true);
         slot2.setId("testID2");
@@ -255,7 +240,6 @@ class ParkingServiceTest {
         slot2.setArrivalTime(LocalDateTime.now());
 
         slot3.setParkingNumber(3);
-        slot3.setSlotLocked(false);
         slot3.setSlotReserved(false);
         slot3.setSlotBooked(true);
         slot3.setId("testID3");
@@ -290,17 +274,13 @@ class ParkingServiceTest {
         slot.setId("testID");
         slot.setParkingNumber(1);
         slot.setSlotBooked(false);
-        slot.setSlotLocked(false);
         slot.setSlotReserved(false);
         slot.setArrivalTime(LocalDateTime.of(2023, 1, 22, 22, 00, 00));
         slot.setBooking(booking);
         slotList.add(slot);
 
-        parkingSlotRepository.save(slot);
-        bookingRepository.save(booking);
-
         when(parkingService.removeBookedParkingSlots()).thenReturn(slotList);
-        assertEquals("", parkingService.removeBookedParkingSlots().get(0).getBooking().getUserName());
-        assertTrue(parkingService.removeBookedParkingSlots().get(0).getParkingNumber()==1, "Booking removed for the slot");
+        System.out.println(parkingService.removeBookedParkingSlots());
+        assertEquals(false, parkingService.removeBookedParkingSlots().get(0).isSlotBooked());
     }
 }

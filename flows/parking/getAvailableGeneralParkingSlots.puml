@@ -1,5 +1,5 @@
 @startuml
-title "Get all available general parking"
+title <U> Get all available general parking
 
 actor User
 control "ParkingController" as Controller
@@ -8,7 +8,7 @@ database MongoDB as DB
 
 User -> Controller : /listAvailableGeneralSlots
 Controller -> Dao : getAvailableGeneralParkingSlots()
-Dao -> DB : {'slotBooked':false, 'slotReserved':false, 'slotLocked':false}
+Dao -> DB : {'slotBooked':false,\n'slotReserved':false}
 DB --> DB
 DB --> Dao : List<ParkingSlot>
 Dao --> Controller

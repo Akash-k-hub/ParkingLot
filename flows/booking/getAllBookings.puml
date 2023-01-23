@@ -1,5 +1,5 @@
 @startuml
-title "Get all booking documents"
+title <U> Get all booking documents
 
 actor User
 control "BookingController" as Controller
@@ -10,8 +10,9 @@ database MongoDB as DB
 User -> Controller : /getAllBookings
 Controller -> Service : getAllBookings()
 Service -> Dao : findAll()
-Dao -> DB : List<Booking>
-DB --> Dao
+Dao -> DB
+DB --> DB
+DB --> Dao : List<Booking>
 Dao --> Service
 Service --> Controller
 Controller --> User : (200 OK) List<Booking>

@@ -48,20 +48,19 @@ class BookingServiceTest {
         slot2.setBooking(new Booking());
         slotList.add(slot2);
 
-        User user = new User("123", "Akash", "pswd", "9874563210", "UP32AB0000", false);
+        User user = new User("testUserID", "Akash", "pswd", "9874563210", "UP32AB0000", false);
 
         booking.setBookingTime(LocalDateTime.now());
         booking.setArrivalTime(LocalDateTime.now().minusMinutes(-100));
         booking.setVehicleNumber(user.getVehicleNumber());
         booking.setUserName(user.getName());
         booking.setParkingNumber(1);
-        booking.setId("abcgdtej7890");
+        booking.setId("testBookingID");
 
         slot.setSlotReserved(false);
         slot.setSlotBooked(false);
         slot.setParkingNumber(1);
-        slot.setId("abxdks1254");
-        slot.setSlotLocked(false);
+        slot.setId("testParkingSlotID");
         slot.setArrivalTime(LocalDateTime.now().minusMinutes(100));
         slot.setBooking(booking);
 

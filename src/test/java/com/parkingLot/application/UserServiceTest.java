@@ -1,6 +1,7 @@
 package com.parkingLot.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.parkingLot.model.User;
@@ -26,21 +27,34 @@ class UserServiceTest {
     @Test
     public void registerUserTest(){
         User user = new User("666", "testUser", "pswd123", "9876543210", "UP54FB6587", false);
-        when(userRepository.save(user)).thenReturn(user);
-        assertEquals(user, userService.registerUser(user));
+        User registeredUser = new User();
+        registeredUser.setReservedUser(user.isReservedUser());
+        registeredUser.setName(user.getName());
+        registeredUser.setVehicleNumber(user.getVehicleNumber());
+        when(userRepository.save(user)).thenReturn(registeredUser);
+        assertEquals(registeredUser, userService.registerUser(user));
     }
 
     @Test
     public void getAllUsersTest(){
         List<User> userList = new ArrayList<>();
 
-        User user1 = new User("666", "testUser1", "pswd123", "9876543210", "UP54FB6587", false);
-        User user2 = new User("010", "testUser2", "pswd2@1", "9876543210", "UP32AS8055", true);
+        User user1 = new User();
+        user1.setReservedUser(false);
+        user1.setName("testUser1");
+        user1.setVehicleNumber("UP54FB6587");
+
+        User user2 = new User();
+        user2.setName("testUser2");
+        user2.setVehicleNumber("UP32AS8055");
+        user2.setReservedUser(true);
+
         userList.add(user1);
         userList.add(user2);
 
         when(userRepository.findAll()).thenReturn(userList);
-        assertEquals(2, userService.getAllUsers().size());
+        assertEquals("testUser1", userService.getAllUsers().get(0).getName());
+        assertTrue(userService.getAllUsers().get(1).getName()== user2.getName(), "User 2 Name");
     }
 
     @Test

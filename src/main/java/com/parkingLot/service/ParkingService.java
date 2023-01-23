@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -78,7 +79,6 @@ public class ParkingService {
             slot.setParkingNumber(i+1);
             slot.setSlotReserved(false);
             slot.setSlotBooked(false);
-            slot.setSlotLocked(false);
 
             //initialising default booking fields
             booking.setUserName("");
@@ -98,6 +98,7 @@ public class ParkingService {
         return parkingRepository.save(parking);
     }
 
+    @Scheduled(cron = "* 1 * * * *")
     public List<ParkingSlot> removeBookedParkingSlots(){
         log.warn("service=ParkingService; method=removeBookedParkingSlots; message=removing the outdated slots");
 

@@ -1,5 +1,5 @@
 @startuml
-title "Remove outdated parking slots"
+title <U> Remove outdated parking slots
 
 actor User
 control "ParkingController" as Controller

@@ -1,5 +1,5 @@
 @startuml
-title "Get user by vehicle number"
+title <U> Get user by vehicle number
 
 
 control "UserService" as Service

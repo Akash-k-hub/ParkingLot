@@ -1,5 +1,5 @@
 @startuml
-title "Get all booked parking"
+title <U> Get all booked parking
 
 actor User
 control "ParkingController" as Controller
@@ -10,7 +10,8 @@ database MongoDB as DB
 User -> Controller : /getBookedParkingSlots
 Controller -> Service : getBookedParkingSlots()
 Service -> Dao : getBookedParkingSlots()
-Dao -> DB
+Dao -> DB : {'slotBooked':true}
+DB --> DB
 DB --> Dao : List<ParkingSlot>
 Dao --> Service
 Service --> Controller

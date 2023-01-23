@@ -31,7 +31,7 @@ public class BookingController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getAllBookings")
+    @GetMapping("/getAllBookingDocuments")
     public ResponseEntity<List<Booking>> getAllBooking(){
         ResponseEntity<List<Booking>> response;
         log.info("service=BookingController; method=getAllBooking");

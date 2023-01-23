@@ -1,5 +1,5 @@
 @startuml
-title "Registering the User"
+title <U> Registering the User
 
 actor User
 control "UserController" as Controller
